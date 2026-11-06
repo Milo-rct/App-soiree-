@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+  <title>Tchin ! — Jeux de soirée</title>
+  <meta name="description" content="Jeux de soirée entre amis : Je n'ai jamais, Qui pourrait, Action ou Vérité, Tu préfères…">
+  <meta name="theme-color" content="#120a24">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Tchin !">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Nunito:wght@500;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="bg-blobs"><span></span><span></span><span></span></div>
+
+  <!-- ACCUEIL -->
+  <section id="screen-home" class="screen active">
+    <div class="home-top">
+      <button class="icon-btn" data-go="settings" aria-label="Réglages">⚙️</button>
+    </div>
+    <div class="logo">
+      <div class="logo-emoji">🥂</div>
+      <h1>Tchin<span>!</span></h1>
+      <p class="tagline">Les jeux qui mettent le feu à tes soirées</p>
+    </div>
+    <div class="player-summary" data-go="players">
+      <div class="ps-label">Joueurs</div>
+      <div id="home-players" class="ps-names">Ajoute tes potes 👇</div>
+      <div class="ps-edit">Modifier ›</div>
+    </div>
+    <h2 class="section-title">Choisis ton jeu</h2>
+    <div id="games-grid" class="games-grid"></div>
+    <p class="footer-note">🔞 Certains modes sont réservés aux adultes. L'abus d'alcool est dangereux pour la santé, à consommer avec modération. Personne n'est obligé de boire : le soda compte aussi 😉</p>
+  </section>
+
+  <!-- JOUEURS -->
+  <section id="screen-players" class="screen">
+    <header class="bar">
+      <button class="icon-btn" data-go="home" aria-label="Retour">‹</button>
+      <h2>Les joueurs</h2>
+      <span class="bar-spacer"></span>
+    </header>
+    <form id="player-form" class="player-form" autocomplete="off">
+      <input id="player-input" type="text" maxlength="16" placeholder="Prénom du joueur" enterkeyhint="done">
+      <button type="submit" class="btn btn-primary">Ajouter</button>
+    </form>
+    <ul id="player-list" class="player-list"></ul>
+    <p id="player-hint" class="hint">Ajoute au moins 2 joueurs pour les jeux avec prénoms.</p>
+    <button class="btn btn-primary btn-big" data-go="home">C'est parti 🚀</button>
+  </section>
+
+  <!-- RÉGLAGES -->
+  <section id="screen-settings" class="screen">
+    <header class="bar">
+      <button class="icon-btn" data-go="home" aria-label="Retour">‹</button>
+      <h2>Réglages</h2>
+      <span class="bar-spacer"></span>
+    </header>
+    <div class="settings">
+      <div class="setting">
+        <div>
+          <strong>Unité de pénalité</strong>
+          <p>Ce qui est affiché dans les cartes (« bois 2 gorgées »…)</p>
+        </div>
+        <select id="set-unit">
+          <option value="gorgée">Gorgées 🍺</option>
+          <option value="shot">Shots 🥃</option>
+          <option value="gage">Gages (sans alcool) 🧃</option>
+        </select>
+      </div>
+      <div class="setting">
+        <div>
+          <strong>Vibrations</strong>
+          <p>Petite vibration à chaque carte</p>
+        </div>
+        <label class="switch"><input type="checkbox" id="set-vibrate"><span></span></label>
+      </div>
+      <div class="setting">
+        <div>
+          <strong>Garder l'écran allumé</strong>
+          <p>Pendant une partie</p>
+        </div>
+        <label class="switch"><input type="checkbox" id="set-wake"><span></span></label>
+      </div>
+      <div class="setting col">
+        <div>
+          <strong>Historique des cartes</strong>
+          <p id="stats-text">Les cartes déjà vues ne reviennent pas tant que toutes n'ont pas été jouées.</p>
+        </div>
+        <button id="reset-history" class="btn btn-ghost">Réinitialiser l'historique</button>
+      </div>
+      <div class="setting col">
+        <div>
+          <strong>Installer l'appli</strong>
+          <p><b>iPhone :</b> dans Safari, bouton Partager ⬆️ puis « Sur l'écran d'accueil ».<br><b>Android :</b> dans Chrome, menu ⋮ puis « Installer l'application ».</p>
+        </div>
+        <button id="install-btn" class="btn btn-primary hidden">📲 Installer maintenant</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- JEU -->
+  <section id="screen-play" class="screen">
+    <header class="bar">
+      <button class="icon-btn" id="quit-btn" aria-label="Quitter">✕</button>
+      <h2 id="play-title">Jeu</h2>
+      <button class="icon-btn" id="modes-btn" aria-label="Modes">🎚️</button>
+    </header>
+    <div id="active-rules" class="active-rules"></div>
+    <div id="stage" class="stage"></div>
+    <div class="play-actions" id="play-actions"></div>
+  </section>
+
+  <!-- SÉLECTION DES MODES -->
+  <div id="sheet" class="sheet hidden" role="dialog" aria-modal="true">
+    <div class="sheet-backdrop"></div>
+    <div class="sheet-panel">
+      <div class="sheet-handle"></div>
+      <div class="sheet-head">
+        <span id="sheet-emoji" class="sheet-emoji"></span>
+        <div>
+          <h3 id="sheet-title"></h3>
+          <p id="sheet-desc"></p>
+        </div>
+      </div>
+      <p class="sheet-label">Choisis tes ambiances (plusieurs possibles)</p>
+      <div id="mode-list" class="mode-list"></div>
+      <p id="sheet-count" class="sheet-count"></p>
+      <button id="start-btn" class="btn btn-primary btn-big">Lancer la partie</button>
+    </div>
+  </div>
+
+  <!-- ÂGE -->
+  <div id="age-modal" class="modal hidden">
+    <div class="modal-box">
+      <div class="modal-emoji">🔞</div>
+      <h3>Contenu pour adultes</h3>
+      <p>Ce mode contient des questions coquines. Confirme que tous les joueurs ont 18 ans ou plus et sont d'accord pour jouer.</p>
+      <div class="modal-actions">
+        <button class="btn btn-ghost" id="age-no">Non</button>
+        <button class="btn btn-primary" id="age-yes">On a tous +18</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast"></div>
+
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

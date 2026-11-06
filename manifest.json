@@ -1,0 +1,18 @@
+{
+  "name": "Tchin ! — Jeux de soirée",
+  "short_name": "Tchin !",
+  "description": "Je n'ai jamais, Qui pourrait, Action ou Vérité, Tu préfères… les jeux pour tes soirées entre amis.",
+  "lang": "fr",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#120a24",
+  "theme_color": "#120a24",
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" },
+    { "src": "icons/icon.svg", "sizes": "any", "type": "image/svg+xml" }
+  ]
+}
